@@ -103,10 +103,17 @@ class LLM_PDF_QA:
         return search
 
     def run(self):
+        template = """Question: {question}
+
+Answer:"""
+
+        prompt = PromptTemplate(template=template, input_variables=["question"])
+        llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=True)
         docs = self.load_from_directory('./docs')
         db = self.save_db(docs)
         query = "what is waymo dataset?"
         search = self.get_search(db, query)
+        print("search: ",search)
         template = '''Context: {context}
 
 Based on Context provide me answer for following question
@@ -116,7 +123,7 @@ Tell me the information about the fact. The answer should be from context only
 do not use general knowledge to answer the query'''
         prompt = PromptTemplate(input_variables=["context", "question"], template=template)
         final_prompt = prompt.format(question=query, context=search)
-        response = self.llm(final_prompt)
+        response = llm_chain(final_prompt)
         print("Response:", response)
 
 
