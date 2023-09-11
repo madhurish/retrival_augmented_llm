@@ -122,4 +122,5 @@ do not use general knowledge to answer the query'''
 
 if __name__ == '__main__':
     obj = LLM_PDF_QA()
+    print(obj.generate_text("Explain to me the difference between nuclear fission and fusion."))
     obj.run()
