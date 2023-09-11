@@ -123,7 +123,7 @@ do not use general knowledge to answer the query'''
         prompt = PromptTemplate(input_variables=["context", "question"], template=template)
         final_prompt = prompt.format(question=query, context=search)
         response = llm_chain(final_prompt)
-        return {"response:", response["text"]}
+        return response["text"]
 
 
 if __name__ == '__main__':
