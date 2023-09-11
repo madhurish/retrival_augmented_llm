@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
 from langchain.llms import LlamaCpp, HuggingFacePipeline
 from langchain import PromptTemplate, LLMChain
 from langchain.callbacks.manager import CallbackManager
@@ -102,18 +103,16 @@ class LLM_PDF_QA:
         search = db.similarity_search(query, k=2)
         return search
 
-    def run(self):
+    def run(self, query):
         template = """Question: {question}
 
 Answer:"""
 
-        prompt = PromptTemplate(template=template, input_variables=["question"])
-        llm_chain = LLMChain(prompt=prompt, llm=self.llm, verbose=True)
+        qa_prompt = PromptTemplate(template=template, input_variables=["question"])
+        llm_chain = LLMChain(prompt=qa_prompt, llm=self.llm, verbose=True)
         docs = self.load_from_directory('./docs')
         db = self.save_db(docs)
-        query = "what is waymo dataset?"
         search = self.get_search(db, query)
-        print("search: ",search)
         template = '''Context: {context}
 
 Based on Context provide me answer for following question
@@ -124,11 +123,15 @@ do not use general knowledge to answer the query'''
         prompt = PromptTemplate(input_variables=["context", "question"], template=template)
         final_prompt = prompt.format(question=query, context=search)
         response = llm_chain(final_prompt)
-        print("Response:", response)
+        print("Response:", response["text"])
 
 
 if __name__ == '__main__':
+    
+    if len(sys.argv) < 2:
+        print("Usage: python script_name.py <query>")
+        sys.exit(1)
+
+    query = sys.argv[1]
     obj = LLM_PDF_QA()
-    print("here")
-    print(obj.generate_text("Explain to me the difference between nuclear fission and fusion."))
-    obj.run()
+    obj.run(query)
