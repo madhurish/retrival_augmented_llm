@@ -18,7 +18,7 @@ class LLM_PDF_QA:
         self.install_dependencies()
         self.load_dependencies()
         self.model, self.tokenizer = self.load_hf_model_and_tokenizer()
-        self.llm = HuggingFacePipeline(pipeline=self.generate_text())
+        self.llm = HuggingFacePipeline(pipeline=self.generate_text)
 
     @staticmethod
     def install_dependencies():
