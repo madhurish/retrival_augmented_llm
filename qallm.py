@@ -18,6 +18,14 @@ class LLM_PDF_QA:
         self.install_dependencies()
         self.load_dependencies()
         self.model, self.tokenizer = self.load_hf_model_and_tokenizer()
+        self.generate_text=transformers.pipeline(
+            model=self.model, tokenizer=self.tokenizer,
+            return_full_text=True,  # langchain expects the full text
+            task='text-generation',
+            temperature=0.1,
+            max_new_tokens=512,
+            repetition_penalty=1.1
+        )
         self.llm = HuggingFacePipeline(pipeline=self.generate_text)
 
     @staticmethod
@@ -64,15 +72,7 @@ class LLM_PDF_QA:
         )
         return model, tokenizer
 
-    def generate_text(self):
-        return transformers.pipeline(
-            model=self.model, tokenizer=self.tokenizer,
-            return_full_text=True,  # langchain expects the full text
-            task='text-generation',
-            temperature=0.1,
-            max_new_tokens=512,
-            repetition_penalty=1.1
-        )
+    
 
     @staticmethod
     def load_from_directory(directory_path):
