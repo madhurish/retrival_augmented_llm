@@ -8,6 +8,7 @@ InstructorEmbedding
 sentence-transformers
 faiss-gpu
 flask
+waitress
 accelerate==0.21.0
 einops==0.6.1
 xformers==0.0.20    
