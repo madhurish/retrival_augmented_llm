@@ -46,6 +46,10 @@ def ask_query():
     response = qa_instance.run(data['query'])
     return jsonify({'response': response})
 
+@app.route('/')
+def index():
+    return '<h1>Hello!</h1>'
+
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
