@@ -41,6 +41,7 @@ class LLM_PDF_QA:
         hf_auth = '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'
         model_config = transformers.AutoConfig.from_pretrained(
             self.model_id,
+            cache_dir='/workspace',
             use_auth_token=hf_auth
         )
 
@@ -50,6 +51,7 @@ class LLM_PDF_QA:
             config=model_config,
             quantization_config=self.bnb_config,
             device_map='auto',
+            cache_dir='/workspace',
             use_auth_token=hf_auth
         )
         model.eval()
@@ -57,6 +59,7 @@ class LLM_PDF_QA:
 
         tokenizer = transformers.AutoTokenizer.from_pretrained(
             self.model_id,
+            cache_dir='/workspace',
             use_auth_token=hf_auth
         )
         return model, tokenizer
@@ -114,7 +117,7 @@ do not use general knowledge to answer the query'''
         prompt = PromptTemplate(input_variables=["context", "question"], template=template)
         final_prompt = prompt.format(question=query, context=search)
         response = self.llm(final_prompt)
-        print("Response:", response["text"])
+        print("Response:", response)
 
 
 if __name__ == '__main__':
