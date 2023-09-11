@@ -52,6 +52,8 @@ def index():
 
 
 if __name__ == '__main__':
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
     app.run(debug=True)
