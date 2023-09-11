@@ -108,7 +108,7 @@ class LLM_PDF_QA:
 Answer:"""
 
         prompt = PromptTemplate(template=template, input_variables=["question"])
-        llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=True)
+        llm_chain = LLMChain(prompt=prompt, llm=self.llm, verbose=True)
         docs = self.load_from_directory('./docs')
         db = self.save_db(docs)
         query = "what is waymo dataset?"
