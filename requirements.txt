@@ -1,0 +1,13 @@
+langchain 
+gradio
+unstructured 
+pdf2image 
+pdfminer.six
+transformers
+InstructorEmbedding
+sentence-transformers
+faiss-gpu
+accelerate==0.21.0
+einops==0.6.1
+xformers==0.0.20    
+bitsandbytes==0.41.0
