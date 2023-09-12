@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 UPLOAD_FOLDER = './docs'
-ALLOWED_EXTENSIONS = {'pdf'}
+ALLOWED_EXTENSIONS = {'pdf','txt'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 

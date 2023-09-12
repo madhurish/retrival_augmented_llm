@@ -7,7 +7,7 @@ from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-from langchain.document_loaders import UnstructuredPDFLoader
+from langchain.document_loaders import UnstructuredPDFLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import gradio as gr
 from torch import cuda, bfloat16
@@ -90,6 +90,16 @@ class LLM_PDF_QA:
                 docs.extend(splitted_docs)
             except:
                 print("Skipping: ", os.path.join(directory_path, pdf_file))
+        txt_files = [f for f in os.listdir(directory_path) if f.endswith('.txt')]
+        for text_file in txt_files:
+            try:
+                loader = TextLoader(os.path.join(directory_path, text_file))
+                text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=50)
+                documents = loader.load()
+                splitted_docs = text_splitter.split_documents(documents)
+                docs.extend(splitted_docs)
+            except:
+                print("Skipping: ", os.path.join(directory_path, text_file))
         print("Loaded and split all documents")
         return docs
 
