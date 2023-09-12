@@ -28,6 +28,8 @@ class LLM_PDF_QA:
             repetition_penalty=1.1
         )
         self.llm = HuggingFacePipeline(pipeline=self.generate_text)
+        docs = self.load_from_directory('./docs')
+        self.db = self.save_db(docs)
 
     @staticmethod
     def install_dependencies():
@@ -91,17 +93,21 @@ class LLM_PDF_QA:
         print("Loaded and split all documents")
         return docs
 
-    @staticmethod
-    def save_db(docs):
+    def save_db(self,docs):
         hf_embedding = HuggingFaceInstructEmbeddings()
-        db = FAISS.from_documents(docs, hf_embedding)
-        db.save_local("vector_db")
-        db = FAISS.load_local("vector_db/", embeddings=hf_embedding)
-        return db
+        self.db = FAISS.from_documents(docs, hf_embedding)
+        self.db.save_local("vector_db")
+        self.db = FAISS.load_local("vector_db/", embeddings=hf_embedding)
+        return self.db
 
     def get_search(self, db, query):
         search = db.similarity_search(query, k=2)
         return search
+    
+    def answer(self,query):
+        ans=self.llm(prompt=query)
+        return ans[0]["generated_text"]
+    
 
     def run(self, query):
         template = """Question: {question}
@@ -110,9 +116,7 @@ Answer:"""
 
         qa_prompt = PromptTemplate(template=template, input_variables=["question"])
         llm_chain = LLMChain(prompt=qa_prompt, llm=self.llm, verbose=True)
-        docs = self.load_from_directory('./docs')
-        db = self.save_db(docs)
-        search = self.get_search(db, query)
+        search = self.get_search(self.db, query)
         template = '''Context: {context}
 
 Based on Context provide me answer for following question

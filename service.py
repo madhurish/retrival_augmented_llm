@@ -46,6 +46,16 @@ def ask_query():
     response = qa_instance.run(data['query'])
     return jsonify({'response': response})
 
+@app.route('/no_context_ask', methods=['POST'])
+def ask_query():
+    data = request.json
+
+    if not data or 'query' not in data:
+        return jsonify({'error': 'Please provide a query'}), 400
+
+    response = qa_instance.answer(data['query'])
+    return jsonify({'response': response})
+
 @app.route('/')
 def index():
     return '<h1>Hello!</h1>'
