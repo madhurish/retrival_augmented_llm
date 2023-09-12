@@ -106,8 +106,7 @@ class LLM_PDF_QA:
     
     def answer(self,query):
         ans=self.llm(prompt=query)
-        print(ans)
-        return str(ans[0])
+        return ans
     
 
     def run(self, query):
