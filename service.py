@@ -29,7 +29,7 @@ def upload_file():
     if file and allowed_file(file.filename):
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
-        docs = qa_instance.load_from_directory(filepath)
+        docs = qa_instance.load_from_directory(app.config['UPLOAD_FOLDER'])
         qa_instance.save_db(docs)
         return jsonify({'success': True, 'message': 'File uploaded and DB updated successfully'}), 200
 
