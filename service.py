@@ -47,7 +47,7 @@ def ask_query():
     return jsonify({'response': response})
 
 @app.route('/no_context_ask', methods=['POST'])
-def ask_query():
+def ask_query_no_context():
     data = request.json
 
     if not data or 'query' not in data:
