@@ -106,7 +106,8 @@ class LLM_PDF_QA:
     
     def answer(self,query):
         ans=self.llm(prompt=query)
-        return ans[0]["generated_text"]
+        print(ans)
+        return str(ans[0])
     
 
     def run(self, query):
@@ -123,7 +124,7 @@ Based on Context provide me answer for following question
 Question: {question}
 
 Tell me the information about the fact. The answer should be from context only
-do not use general knowledge to answer the query'''
+do not use general knowledge to answer the query. If context is irrelevant inform that context is not relevant'''
         prompt = PromptTemplate(input_variables=["context", "question"], template=template)
         final_prompt = prompt.format(question=query, context=search)
         response = llm_chain(final_prompt)
