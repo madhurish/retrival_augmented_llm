@@ -27,7 +27,7 @@ def upload_file():
         return jsonify({'error': 'No selected file'}), 400
 
     if file and allowed_file(file.filename):
-        qa_instance.delete_files_in_directory(app.config['UPLOAD_FOLDER'])
+        # qa_instance.delete_files_in_directory(app.config['UPLOAD_FOLDER'])
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
         docs = qa_instance.load_from_directory(app.config['UPLOAD_FOLDER'])
@@ -36,7 +36,11 @@ def upload_file():
 
     return jsonify({'error': 'Invalid file type'}), 400
 
-
+@app.route('/list_files', methods=['GET'])
+def list_files():
+    files=[f for f in os.listdir(app.config['UPLOAD_FOLDER'])]
+    return jsonify({'files':files})
+    
 @app.route('/ask', methods=['POST'])
 def ask_query():
     data = request.json
