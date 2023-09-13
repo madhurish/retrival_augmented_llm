@@ -54,7 +54,7 @@ def delete_file():
         if docs or docs!=[]:
             qa_instance.save_db(docs)
             return jsonify({'success': True, 'message': 'File deleted and DB updated successfully'}), 200
-        return jsonify({'success': False, 'message': 'File not deleted and DB not updated successfully'}), 200
+        return jsonify({'success': False, 'message': 'File deleted but DB not updated as some context is needed in DB'}), 200
     
 @app.route('/ask', methods=['POST'])
 def ask_query():
