@@ -113,6 +113,15 @@ class LLM_PDF_QA:
             print("All files deleted successfully.")
         except OSError:
             print("Error occurred while deleting files.")
+    @staticmethod
+    def delete_file_in_directory(directory_path,file_name):
+        file_path = os.path.join(directory_path, file_name)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+            return 200
+        else:
+            return 400
+        
 
     def save_db(self,docs):
         hf_embedding = HuggingFaceInstructEmbeddings()

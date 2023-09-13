@@ -40,6 +40,19 @@ def upload_file():
 def list_files():
     files=[f for f in os.listdir(app.config['UPLOAD_FOLDER'])]
     return jsonify({'files':files})
+
+@app.route('/delete_file', methods=['POST'])
+def delete_file():
+    data=request.json
+    if not data or 'file_name' not in data:
+        return jsonify({'error':'Provide file name'}), 400
+    status= qa_instance.delete_file_in_directory(app.config['UPLOAD_FOLDER'],data['file_name'])
+    if status==400:
+        return jsonify({'error':'could not delete file'}), 400
+    else:
+        docs = qa_instance.load_from_directory(app.config['UPLOAD_FOLDER'])
+        qa_instance.save_db(docs)
+        return jsonify({'success': True, 'message': 'File deleted and DB updated successfully'}), 200
     
 @app.route('/ask', methods=['POST'])
 def ask_query():
