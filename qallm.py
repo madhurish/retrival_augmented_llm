@@ -102,6 +102,17 @@ class LLM_PDF_QA:
                 print("Skipping: ", os.path.join(directory_path, text_file))
         print("Loaded and split all documents")
         return docs
+    @staticmethod
+    def delete_files_in_directory(directory_path):
+        try:
+            files = os.listdir(directory_path)
+            for file in files:
+                file_path = os.path.join(directory_path, file)
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+            print("All files deleted successfully.")
+        except OSError:
+            print("Error occurred while deleting files.")
 
     def save_db(self,docs):
         hf_embedding = HuggingFaceInstructEmbeddings()

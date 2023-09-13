@@ -27,6 +27,7 @@ def upload_file():
         return jsonify({'error': 'No selected file'}), 400
 
     if file and allowed_file(file.filename):
+        qa_instance.delete_files_in_directory(app.config['UPLOAD_FOLDER'])
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
         docs = qa_instance.load_from_directory(app.config['UPLOAD_FOLDER'])
