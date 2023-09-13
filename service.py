@@ -51,8 +51,10 @@ def delete_file():
         return jsonify({'error':'could not delete file'}), 400
     else:
         docs = qa_instance.load_from_directory(app.config['UPLOAD_FOLDER'])
-        qa_instance.save_db(docs)
-        return jsonify({'success': True, 'message': 'File deleted and DB updated successfully'}), 200
+        if docs or docs!=[]:
+            qa_instance.save_db(docs)
+            return jsonify({'success': True, 'message': 'File deleted and DB updated successfully'}), 200
+        return jsonify({'success': False, 'message': 'File not deleted and DB not updated successfully'}), 200
     
 @app.route('/ask', methods=['POST'])
 def ask_query():
