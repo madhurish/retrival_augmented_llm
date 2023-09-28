@@ -67,7 +67,7 @@ def ask_query():
     return jsonify({'response': response})
 
 @app.route('/classify', methods=['POST'])
-def ask_query():
+def classify_query():
     data = request.json
 
     if not data or 'query' not in data:
