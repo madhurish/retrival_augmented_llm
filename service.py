@@ -66,6 +66,16 @@ def ask_query():
     response = qa_instance.run(data['query'])
     return jsonify({'response': response})
 
+@app.route('/classify', methods=['POST'])
+def ask_query():
+    data = request.json
+
+    if not data or 'query' not in data:
+        return jsonify({'error': 'Please provide a query'}), 400
+
+    response = qa_instance.classify(data['query'])
+    return jsonify({'response': response})
+
 @app.route('/no_context_ask', methods=['POST'])
 def ask_query_no_context():
     data = request.json

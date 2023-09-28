@@ -159,6 +159,25 @@ do not use general knowledge to answer the query. If context is irrelevant infor
         response = llm_chain(final_prompt)
         print(response["text"])
         return response["text"]
+    
+    def classify(self, query):
+        template = """Question: {question}
+
+Answer:"""
+
+        qa_prompt = PromptTemplate(template=template, input_variables=["question"])
+        llm_chain = LLMChain(prompt=qa_prompt, llm=self.llm, verbose=True)
+        search = self.get_search(self.db, query)
+        template = '''Message: {context}
+
+Based on Message provided categorize it to one of the following: "URGENT", "IMPORTANT", "NOT IMPORTANT", "SPAM"
+
+clssify the message as one of the 4 given categories and only respond with one word answer.'''
+        prompt = PromptTemplate(input_variables=["context"], template=template)
+        final_prompt = prompt.format(question=query, context=search)
+        response = llm_chain(final_prompt)
+        print(response["text"])
+        return response["text"]
 
 
 if __name__ == '__main__':
