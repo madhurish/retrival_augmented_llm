@@ -201,9 +201,7 @@ Answer:"""
         qa_prompt = PromptTemplate(template=template, input_variables=["question"])
         llm_chain = LLMChain(prompt=qa_prompt, llm=self.llm, verbose=True)
         search = self.concatenate_files_from_directory('./chats')
-        template = '''Context: {context}
-
-Based on Context provide me answer for following question
+        template = '''{context}
 Question: {question}
 use messages and metadata to answer the question, use minimum words to answer the question
 '''
