@@ -5,9 +5,11 @@ import os
 app = Flask(__name__)
 
 UPLOAD_FOLDER = './docs'
+CHAT_FOLDER = './chats'
 ALLOWED_EXTENSIONS = {'pdf','txt'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['CHAT_FOLDER'] = CHAT_FOLDER
 
 qa_instance = LLM_PDF_QA()
 
@@ -36,10 +38,42 @@ def upload_file():
 
     return jsonify({'error': 'Invalid file type'}), 400
 
+@app.route('/upload_chat',methods=['POST'])
+def upload_chat():
+    if 'chat' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
+    chat = request.files['chat']
+    if chat.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+    if chat and allowed_file(chat.filename):
+        chatpath = os.path.join(app.config['CHAT_FOLDER'],chat.filename)
+        chat.save(chatpath)
+        return jsonify({'success': True, 'message': 'File uploaded and DB updated successfully'}), 200
+
+
 @app.route('/list_files', methods=['GET'])
 def list_files():
     files=[f for f in os.listdir(app.config['UPLOAD_FOLDER'])]
     return jsonify({'files':files})
+
+
+@app.route('/list_chats', methods=['GET'])
+def list_chats():
+    files=[f for f in os.listdir(app.config['CHAT_FOLDER'])]
+    return jsonify({'chats':files})
+
+
+@app.route('/delete_chats',methods=['POST'])
+def delete_chats():
+    data= request.json
+    if not data or 'chat_name' not in data:
+        return jsonify({'error':'Provide file name'}), 400
+    status = qa_instance.delete_file_in_directory(app.config['CHAT_FOLDER'],data['chat_name'])
+    if status==400:
+        return jsonify({'error':'could not delete chat'}), 400
+    else:
+        return jsonify({'success': True, 'message': 'Chat deleted successfully'}), 200
+    
 
 @app.route('/delete_file', methods=['POST'])
 def delete_file():
