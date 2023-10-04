@@ -1,0 +1,100 @@
+{
+        "message": "Let's schedule a meeting to discuss the project milestones.",
+        "metadata": {
+            "sender": "Alex",
+            "date": "28/10/2023",
+            "priority": "Important",
+            "due-date": "30/10/2023",
+            "source": "Slack"
+        }
+    },
+    {
+        "message": "You need to file your taxes.",
+        "metadata": {
+            "sender": "Tax Department",
+            "date": "28/10/2023",
+            "priority": "Urgent",
+            "due-date": "30/10/2023",
+            "source": "e-mail"
+        }
+    },
+    {
+        "message": "Bring groceries on your way back home.",
+        "metadata": {
+            "sender": "Mom",
+            "date": "28/10/2023",
+            "priority": "Important",
+            "due-date": "30/10/2023",
+            "source": "whatsapp"
+        }
+    },
+    {
+        "message": "Your dentist appointment is confirmed for next Tuesday.",
+        "metadata": {
+            "sender": "Dental Clinic",
+            "date": "29/10/2023",
+            "priority": "Normal",
+            "due-date": "05/11/2023",
+            "source": "SMS"
+        }
+    },
+    {
+        "message": "Your package will be delivered tomorrow.",
+        "metadata": {
+            "sender": "Online Store",
+            "date": "29/10/2023",
+            "priority": "Normal",
+            "due-date": "30/10/2023",
+            "source": "e-mail"
+        }
+    },
+    {
+        "message": "Don't forget to submit the assignment by Friday.",
+        "metadata": {
+            "sender": "Professor Smith",
+            "date": "29/10/2023",
+            "priority": "Important",
+            "due-date": "01/11/2023",
+            "source": "university portal"
+        }
+    },
+    {
+        "message": "Your flight booking reference number is ABC1234.",
+        "metadata": {
+            "sender": "Travel Agency",
+            "date": "30/10/2023",
+            "priority": "Normal",
+            "due-date": "05/11/2023",
+            "source": "SMS"
+        }
+    },
+    {
+        "message": "Your credit card bill is due next week.",
+        "metadata": {
+            "sender": "Bank",
+            "date": "31/10/2023",
+            "priority": "Urgent",
+            "due-date": "07/11/2023",
+            "source": "Bank App"
+        }
+    },
+    {
+        "message": "The meeting location has changed to the downtown office.",
+        "metadata": {
+            "sender": "HR Department",
+            "date": "01/11/2023",
+            "priority": "Important",
+            "due-date": "03/11/2023",
+            "source": "Company Portal"
+        }
+    },
+    {
+        "message": "Your gym membership is about to expire.",
+        "metadata": {
+            "sender": "Gym",
+            "date": "02/11/2023",
+            "priority": "Normal",
+            "due-date": "10/11/2023",
+            "source": "SMS"
+        }
+    }
