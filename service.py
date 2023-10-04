@@ -40,14 +40,17 @@ def upload_file():
 
 @app.route('/upload_chat',methods=['POST'])
 def upload_chat():
-    if 'chat' not in request.files:
+    if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
-    chat = request.files['chat']
-    if chat.filename == '':
+
+    file = request.files['file']
+
+    if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
-    if chat and allowed_file(chat.filename):
-        chatpath = os.path.join(app.config['CHAT_FOLDER'],chat.filename)
-        chat.save(chatpath)
+
+    if file and allowed_file(file.filename):
+        filepath = os.path.join(app.config['CHAT_FOLDER'], file.filename)
+        file.save(filepath)
         return jsonify({'success': True, 'message': 'File uploaded and DB updated successfully'}), 200
 
 
