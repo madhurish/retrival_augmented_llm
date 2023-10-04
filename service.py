@@ -104,7 +104,7 @@ def ask_query():
     return jsonify({'response': response})
 
 @app.route('/ask_chat', methods=['POST'])
-def ask_query():
+def ask_chat():
     data = request.json
 
     if not data or 'query' not in data:
