@@ -209,9 +209,11 @@ use messages and metadata to answer the question, use minimum words to answer th
 '''
         prompt = PromptTemplate(input_variables=["context", "question"], template=template)
         final_prompt = prompt.format(question=query, context=search)
-        response = llm_chain(final_prompt)
-        print(response["text"])
-        return response["text"]
+        if search!="":
+            response = llm_chain(final_prompt)
+            print(response["text"])
+            return response["text"]
+        return "Upload messages to infer"
 
 if __name__ == '__main__':
     
