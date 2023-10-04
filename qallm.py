@@ -121,6 +121,22 @@ class LLM_PDF_QA:
             return 200
         else:
             return 400
+    
+    @staticmethod
+    def concatenate_files_from_directory(directory_path):
+        """Reads all files from the given directory and concatenates their content into a single string."""
+        concatenated_string = ""
+        
+        # List all files in the directory
+        files = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+        
+        # Loop through each file and read its content
+        for file in files:
+            with open(os.path.join(directory_path, file), 'r') as f:
+                concatenated_string += f.read()
+        
+        return concatenated_string
+
         
 
     def save_db(self,docs):
@@ -177,7 +193,25 @@ clssify the message as one of the 4 given categories and only respond with one w
         response = llm_chain(final_prompt)
         print(response["text"])
         return response["text"]
+    def answer(self, query):
+        template = """Question: {question}
 
+Answer:"""
+
+        qa_prompt = PromptTemplate(template=template, input_variables=["question"])
+        llm_chain = LLMChain(prompt=qa_prompt, llm=self.llm, verbose=True)
+        search = self.concatenate_files_from_directory('./chats')
+        template = '''Context: {context}
+
+Based on Context provide me answer for following question
+Question: {question}
+use messages and metadata to answer the question, use minimum words to answer the question
+'''
+        prompt = PromptTemplate(input_variables=["context", "question"], template=template)
+        final_prompt = prompt.format(question=query, context=search)
+        response = llm_chain(final_prompt)
+        print(response["text"])
+        return response["text"]
 
 if __name__ == '__main__':
     

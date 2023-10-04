@@ -103,6 +103,16 @@ def ask_query():
     response = qa_instance.run(data['query'])
     return jsonify({'response': response})
 
+@app.route('/ask_chat', methods=['POST'])
+def ask_query():
+    data = request.json
+
+    if not data or 'query' not in data:
+        return jsonify({'error': 'Please provide a query'}), 400
+
+    response = qa_instance.answer(data['query'])
+    return jsonify({'response': response})
+
 @app.route('/classify', methods=['POST'])
 def classify_query():
     data = request.json
