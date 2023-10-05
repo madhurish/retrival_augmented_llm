@@ -195,7 +195,8 @@ clssify the message as one of the 4 given categories and only respond with one w
         return response["text"]
     def answer_messages(self, query):
         messages = self. concatenate_files_from_directory('./chats')
-        final_prompt = messages + "Answer this question based on the context use minimum words: Q: " +query
+        final_prompt = "Messages: "+messages + "Answer this question based on the messages and the metadata provided use minimum words: Q: " +query
+        print(final_prompt)
         if messages != "":
             ans = self.llm(prompt=final_prompt)
             return ans
