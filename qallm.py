@@ -193,26 +193,14 @@ clssify the message as one of the 4 given categories and only respond with one w
         response = llm_chain(final_prompt)
         print(response["text"])
         return response["text"]
-    def answer(self, query):
-        template = """Question: {question}
-
-Answer:"""
-
-        qa_prompt = PromptTemplate(template=template, input_variables=["question"])
-        llm_chain = LLMChain(prompt=qa_prompt, llm=self.llm, verbose=True)
-        search = self.concatenate_files_from_directory('./chats')
-        template = '''{context}
-Question: {question}
-use messages and metadata to answer the question, use minimum words to answer the question
-'''
-        prompt = PromptTemplate(input_variables=["context", "question"], template=template)
-        final_prompt = prompt.format(question=query, context=search)
-        if search!="":
-            response = llm_chain(final_prompt)
-            print(response["text"])
-            return response["text"]
-        return "Upload messages to infer"
-
+    def answer_messages(self, query):
+        messages = self. concatenate_files_from_directory('./chats')
+        final_prompt = messages + "Answer this question based on the context use minimum words: Q: " +query
+        if messages != "":
+            ans = self.llm(prompt=final_prompt)
+            return ans
+        return "Upload messages file to ask questions"
+    
 if __name__ == '__main__':
     
     if len(sys.argv) < 2:

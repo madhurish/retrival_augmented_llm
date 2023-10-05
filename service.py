@@ -110,7 +110,7 @@ def ask_chat():
     if not data or 'query' not in data:
         return jsonify({'error': 'Please provide a query'}), 400
 
-    response = qa_instance.answer(data['query'])
+    response = qa_instance.answer_messages(data['query'])
     return jsonify({'response': response})
 
 @app.route('/classify', methods=['POST'])
