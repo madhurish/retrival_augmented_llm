@@ -39,7 +39,7 @@ class LLM_PDF_QA:
         pass
 
     def load_dependencies(self):
-        self.model_id = 'meta-llama/Llama-2-13b-chat-hf'
+        self.model_id = 'meta-llama/Llama-2-70b-chat-hf'
         self.device = f'cuda:{cuda.current_device()}' if cuda.is_available() else 'cpu'
         self.bnb_config = transformers.BitsAndBytesConfig(
             load_in_4bit=True,
