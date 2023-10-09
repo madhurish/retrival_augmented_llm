@@ -195,7 +195,14 @@ clssify the message as one of the 4 given categories and only respond with one w
         return response["text"]
     def answer_messages(self, query):
         messages = self. concatenate_files_from_directory('./chats')
-        final_prompt = "Messages: "+messages + "Answer this question based on the messages and the metadata provided use minimum words: Q: " +query
+        sys_prompt = '''
+        <s>[INST] <<SYS>>
+You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+
+If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+<</SYS>>
+        '''
+        final_prompt = sys_prompt + "Messages: "+messages + "Answer this question based on the messages and the metadata provided use minimum words: Q: " +query + "[/INST]"
         print(final_prompt)
         if messages != "":
             ans = self.llm(prompt=final_prompt)
